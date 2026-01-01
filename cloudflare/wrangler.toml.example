@@ -1,0 +1,28 @@
+name = "timecapsule-worker"
+main = "src/worker.ts"
+compatibility_date = "2024-11-01"
+
+[vars]
+# 发件人邮箱，需与 Resend 验证过的域名一致
+FROM_EMAIL = "Time Capsule <no-reply@yourdomain.com>"
+# 网站域名（用于邮件正文里展示来源）
+BASE_URL = "https://capsule.yourdomain.com"
+# 每日创建配额（站点总量）
+DAILY_CREATE_LIMIT = "100"
+# 联系邮箱（显示在状态页）
+CONTACT_EMAIL = "support@yourdomain.com"
+
+# 以下建议使用 wrangler secret put 设置，不要明文写在配置文件中
+# ADMIN_PASSWORD = "your-admin-password"
+# RESEND_API_KEY = "re_xxxxxxxxxxxx"
+# RESEND_WEBHOOK_SECRET = "whsec_xxxxxxxxxxxx"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "timecapsule"
+# 运行 wrangler d1 create timecapsule 后获取的 ID
+database_id = "your-database-id"
+
+[triggers]
+# 每 1 分钟检查并发送到期胶囊
+crons = ["*/1 * * * *"]

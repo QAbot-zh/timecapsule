@@ -1,0 +1,25 @@
+services:
+  timecapsule:
+    build: .
+    container_name: timecapsule
+    restart: unless-stopped
+    ports:
+      - "21839:21839"
+    environment:
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_WEBHOOK_SECRET=${RESEND_WEBHOOK_SECRET:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - FROM_EMAIL=${FROM_EMAIL:-Time Capsule <noreply@example.com>}
+      - BASE_URL=${BASE_URL:-}
+      - CONTACT_EMAIL=${CONTACT_EMAIL:-}
+      - IP_DAILY_LIMIT=${IP_DAILY_LIMIT:-20}
+      - IP_10MIN_LIMIT=${IP_10MIN_LIMIT:-5}
+      - DAILY_CREATE_LIMIT=${DAILY_CREATE_LIMIT:-100}
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:21839/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
