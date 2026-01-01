@@ -24,7 +24,7 @@ mkdir data
 cat > docker-compose.yml << 'EOF'
 services:
   timecapsule:
-    image: ghcr.io/QAbot/timecapsule/timecapsule:latest
+    image: ghcr.io/qabot-zh/timecapsule:latest
     container_name: timecapsule
     restart: unless-stopped
     ports:
